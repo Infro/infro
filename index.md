@@ -8,7 +8,7 @@
 - Software Management Best Practices Training
 - In depth C# and .NET Archectural review
 
+---
 
-
-[^1] [editor on GitHub](https://github.com/Infro/infro/edit/gh-pages/index.md)
-[^2] [documentation](https://docs.github.com/categories/github-pages-basics/)
+[^1]: [editor on GitHub](https://github.com/Infro/infro/edit/gh-pages/index.md)
+[^2]: [documentation](https://docs.github.com/categories/github-pages-basics/)
