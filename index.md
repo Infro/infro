@@ -18,6 +18,9 @@ We focus on helping people that care about the long term effects of their action
 - Software Management Best Practices Training
 - In depth C# and .NET Archectural review
 
+## Contact
+
+- Email: infro{dot}j[dot]z@gmail.com
 ---
 
 [^1]: [editor on GitHub](https://github.com/Infro/infro/edit/gh-pages/index.md)
