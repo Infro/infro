@@ -2,7 +2,7 @@
 
 ## Our Focus
 
-We focus on helping people that are community oriented.
+We focus on helping people that care about the long term effects of their actions balanced against indecission or overanalyzing.
 
 ## Services we provide
 
