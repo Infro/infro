@@ -1,6 +1,10 @@
-## Welcome to Heilman Consulting
+# Heilman Consulting
 
-### Services we provide
+## Our Focus
+
+We focus on helping people that are community oriented.
+
+## Services we provide
 
 - Custom Software Development
 - Software Recommendation
