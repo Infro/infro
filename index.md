@@ -2,7 +2,7 @@
 
 ## Our Focus
 
-We focus on helping people that care about the long term effects of their actions balanced against indecission or overanalyzing.
+We focus on helping people that care about the long term effects of their actions balanced against indecission or overanalyzing.  We want to automate your work so you can spend more time with your family, friends, community, and yourself, because they can all benefit from your love.
 
 ### KPIs
 - [x] Philosophical guidance grounded against experience
