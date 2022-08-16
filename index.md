@@ -5,9 +5,10 @@
 We focus on helping people that care about the long term effects of their actions balanced against indecission or overanalyzing.
 
 ### KPIs
-- [x] Minimalism
-- [x] Selectivity
-- [x] Ethical Framework
+- [x] Philosophical guidance grounded against experience
+- [x] Minimal viable product
+- [x] Client selectivity
+- [x] Ethical framework
 
 ## Services we provide
 
