@@ -1,9 +1,56 @@
 ﻿@page "/"
+@inject IJSRuntime jsRuntime
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Heilman Consulting</PageTitle>
+<h1>Heilman Consulting</h1>
 
-<h1>Hello, world!</h1>
+<h5>Our Focus</h5>
+<span>We focus on helping people that care about the long term effects of their actions balanced against indecission or overanalyzing. We want to automate your work so you can spend more time with your family, friends, community, and yourself, because they can all benefit from your love.</span>
 
-Welcome to your new app.
+<h5>KPIs</h5>
+<ul class="col2">
+    <li>Philosophical guidance grounded against experience</li>
+    <li>Minimal viable product</li>
+    <li>Client selectivity</li>
+    <li>Ethical framework</li>
+</ul>
+<h5>Services we provide</h5>
+<ul>
+    <li>Custom Software Development</li>
+    <li>Software Recommendation</li>
+    <li>Psychological Safety Training</li>
+    <li>Software Management Best Practices Training</li>
+    <li>In depth C# and .NET Archectural review</li>
+</ul>
+<h5>Contact</h5>
+<ul class="col2">
+    <li>Email:<canvas @ref=MyElementReference id="myCanvas" width="150" height="24" style="border:0px solid;margin:0 0 -7px 0;">My Email</canvas></li>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    <li><a href="https://www.linkedin.com/in/infro">LinkedIn</a></li>
+    <li><a href="https://www.github.com/infro">GitHub</a></li>
+    <li><a href="https://www.mercurynews.com/wp-content/uploads/2018/04/11.jpg" style="color:#238823">Facebook</a></li>
+</ul>
+
+<style>
+ul.col2 {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+}
+
+h5 {
+    color: 000;
+}
+</style>
+
+@code{
+    ElementReference MyElementReference;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await jsRuntime.InvokeAsync<object>("lemail", MyElementReference);
+        }
+    }
+}
