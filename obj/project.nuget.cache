@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "tdpji0Np9VGQz42aVXlV9pCmRrhaK4Dk0G7tisu4+VUFheRlxYaab1RT6OuyR88e4/gFW6sBeillbnruiHg6GQ==",
+  "dgSpecHash": "fBH6S7Q65ixsRMTksQ01TRVnnJxq0Bl97hez4rk75sUq+dKCV8Az1hoByv1AIOhdUVcotxv1wJil/2IqDdA3tA==",
   "success": true,
   "projectFilePath": "C:\\Users\\AdultLab\\dev\\dev.sync\\infro.github.io\\infro.github.io.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\AdultLab\\.nuget\\packages\\blazor.extensions.canvas\\1.1.1\\blazor.extensions.canvas.1.1.1.nupkg.sha512",
     "C:\\Users\\AdultLab\\.nuget\\packages\\microsoft.aspnetcore.authorization\\6.0.9\\microsoft.aspnetcore.authorization.6.0.9.nupkg.sha512",
     "C:\\Users\\AdultLab\\.nuget\\packages\\microsoft.aspnetcore.components\\6.0.9\\microsoft.aspnetcore.components.6.0.9.nupkg.sha512",
     "C:\\Users\\AdultLab\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\6.0.9\\microsoft.aspnetcore.components.analyzers.6.0.9.nupkg.sha512",
