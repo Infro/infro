@@ -1,0 +1,23 @@
+﻿@page "/scheduleMeeting"
+@using BlazorDateRangePicker
+
+<PageTitle>Select a date and time and method of contact.</PageTitle>
+
+<h1>Schedule</h1>
+
+<DateRangePicker OnRangeSelect />
+
+@code {
+    DateTimeOffset? StartDate { get; set; } = DateTime.Today.AddMonths(-1);
+    DateTimeOffset? EndDate { get; set; } = DateTime.Today.AddDays(1).AddTicks(-1);
+}
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+@code {
+    public void OnRangeSelect(DateRange range)
+    {
+        RequestGoogleCalendarAdd()
+    }
+}
