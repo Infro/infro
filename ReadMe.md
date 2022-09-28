@@ -22,3 +22,6 @@
 Integrate Dynamic DNS Resolution
 auto https ??? Instructions for rooting ? Dynamic Name Resolution?
 
+
+
+git clone https://github.com/dotnet/blazor-samples --depth=1
