@@ -1,6 +1,6 @@
 using BlazorDateRangePicker;
 
-public partial class RequestMeeting 
+public partial class MyRequestMeeting 
 {
     
     public DateRange Slot;
