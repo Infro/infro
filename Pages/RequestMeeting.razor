@@ -6,7 +6,7 @@
 
 <h1>Schedule</h1>
 <InputText @bind-Value="Request.Requestor" />
-<InputText @bind-Value="Request.Message" aria-placeholder=""
+<InputText @bind-Value="Request.Message" aria-placeholder="" />
 <DateRangePicker @bind-DateRanges="availableSlots" @bind-StartDate="Request.Slot.Start" @bind-EndDate="Request.Slot.End" TimePicker="true"  />
 <button class="btn btn-primary" @onclick="this.Submit">Schedule</button>
 
