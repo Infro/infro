@@ -10,6 +10,7 @@
     <link href="css/app.css" rel="stylesheet" />
     <link href="infro.github.io.styles.css" rel="stylesheet" />
     <link href="_content/BlazorDateRangePicker/daterangepicker.min.css" rel="stylesheet" />
+    <link href="_content/Syncfusion.Blazor.Themes/bootstrap5.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -20,10 +21,17 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
-    <script src="_framework/blazor.webassembly.js"></script>
-    <script src="_content/Blazor.Extensions.Canvas/blazor.extensions.canvas.js"></script>
+    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // window.startupParams = function() { return ['first', 'second', 'third']; };
+        Blazor.start();
+      });
+    </script>
     <script src="pages/index.js"></script>
+    <script src="_content/Blazor.Extensions.Canvas/blazor.extensions.canvas.js"></script>
     <script src="_content/BlazorDateRangePicker/clickAndPositionHandler.js"></script>
+    <script src="_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js" type="text/javascript"></script>
 </body>
 
 </html>

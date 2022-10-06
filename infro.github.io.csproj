@@ -4,16 +4,30 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- <EmitCompilerGeneratedFiles Condition="'$(Configuration)' == 'Debug'">true</EmitCompilerGeneratedFiles>  -->
     <!-- <BlazorWasmPrerenderingDeleteLoadingContents>true</BlazorWasmPrerenderingDeleteLoadingContents> -->
   </PropertyGroup>
-
+  <Target Name="Remove Generated CS files before regenerating as workaround" Condition="'$(cs)' == 'true'" BeforeTargets="CoreClean">
+    <ItemGroup>
+      <_CustomFilesToDelete Include="Microsoft.NET.Sdk.Razor.SourceGenerators\**\*"/>
+    </ItemGroup>
+    <Delete Files='@(_CustomFilesToDelete)'/>
+    <!-- <Delete Files="Microsoft.NET.Sdk.Razor.SourceGenerators\*.*" /> -->
+  </Target>
+  <PropertyGroup Condition="'$(cs)' == 'true'">
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>.</CompilerGeneratedFilesOutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Blazor.Extensions.Canvas" Version="1.1.1" />
+    <PackageReference Include="Blazor.LocalStorage" Version="2.0.10" />
     <PackageReference Include="BlazorDateRangePicker" Version="4.2.0" />
     <PackageReference Include="BlazorWasmPreRendering.Build" Version="1.0.0-preview.26.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.9" PrivateAssets="all" />
     <PackageReference Include="PublishSPAforGitHubPages.Build" Version="2.0.1" />
+    <PackageReference Include="Syncfusion.Blazor.Calendars" Version="20.3.0.48" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="20.3.0.48" />
   </ItemGroup>
 
 </Project>
