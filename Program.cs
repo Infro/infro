@@ -25,6 +25,7 @@ namespace infro.github.io
             {
                 if (env.IsDevelopment())
                 {
+                    
                 }
                 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NzMzMjc1QDMyMzAyZTMzMmUzMFpnbW9YY2M3RW8xcHo0OXpmcm04MXovaXlPbDZPN2ZGZHlGK0pXQ1pKbTQ9");
 

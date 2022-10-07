@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
-
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -26,8 +25,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.9" PrivateAssets="all" />
     <PackageReference Include="PublishSPAforGitHubPages.Build" Version="2.0.1" />
-    <PackageReference Include="Syncfusion.Blazor.Calendars" Version="20.3.0.48" />
+    <PackageReference Include="Syncfusion.Blazor.Schedule" Version="20.3.0.48" />
     <PackageReference Include="Syncfusion.Blazor.Themes" Version="20.3.0.48" />
   </ItemGroup>
-
 </Project>
