@@ -5,16 +5,19 @@
 @* https://blazor.syncfusion.com/documentation/scheduler/editor-template *@
 @* Can Import/Export ICS files TheScheudler.Import,,, What about single events? *@
 <h1>Schedule</h1>
-<EditForm>
-    <InputText @bind-Value="Request.Requestor._value" />
-    <InputText @bind-Value="Request.Message" aria-placeholder="" />
+@* <EditForm> *@
+    @* <InputText @bind-Value="Request.Requestor._value" />
+    <InputText @bind-Value="Request.Message" aria-placeholder="" /> *@
     <button class="btn btn-primary" @onclick="this.Submit">Schedule</button>
-    <SfSchedule TValue="AppointmentData" Height="650px" @bind-SelectedDate="@CurrentDate" @ref="TheScheduler">
+@* </EditForm> *@
+    <SfSchedule TValue="AppointmentData" Height="100%" @ref="TheScheduler"
+        EnablePersistence="true" @bind-SelectedDate="@SelectedDate" @bind-CurrentView="@CurrentView"
+        OnActionBegin="OnActionBegin">
         <ScheduleEventSettings DataSource="@DataSource">
             <ScheduleField>
-                <FieldEmail Title="Email"></FieldEmail>
+                @* <FieldEmail Title="Email"></FieldEmail> *@
                 <FieldSubject Title="Subject"></FieldSubject>
-                <FieldLocation Title="Meeting Location"></FieldLocation>
+                <FieldLocation Title="E-Mail"></FieldLocation>
                 <FieldDescription Title="Comments"></FieldDescription>
                 <FieldIsAllDay Title="Full Day"></FieldIsAllDay>
                 <FieldStartTime Title="Departure Time"></FieldStartTime>
@@ -24,17 +27,26 @@
             </ScheduleField>
         </ScheduleEventSettings>
         <ScheduleViews>
-            <ScheduleView Option="View.Day"></ScheduleView>
-            <ScheduleView Option="View.Week" StartHour="07:00" EndHour="15:00"></ScheduleView>
-            <ScheduleView Option="View.WorkWeek" StartHour="10:00" EndHour="18:00"></ScheduleView>
-            <ScheduleView Option="View.Month" MaxEventsPerRow="2" ShowWeekend="false"></ScheduleView>
+            <ScheduleView Option="View.Day" StartHour="07:00" EndHour="18:00"></ScheduleView>
+            <ScheduleView Option="View.Week" StartHour="07:00" EndHour="18:00"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek" StartHour="07:00" EndHour="18:00"></ScheduleView>
+            <ScheduleView Option="View.Month" MaxEventsPerRow="2" ShowWeekend="true"></ScheduleView>
             @* <ScheduleView Option="View.Agenda"></ScheduleView> *@
         </ScheduleViews>
     </SfSchedule>
-</EditForm>
 
 @code {
+    public DateTime SelectedDate = DateTime.Now;
+    public View CurrentView = View.Week;
+
+    
+    (DateTime, DateTime)[] availableSlots;
+    private async Task GetAvailableSlots()
+    {
+        @* availableSlots = await Http.GetFromJsonAsync<(DateTime, DateTime)[]>(QueryAvailableSlotsUri); *@
+    }
     SfSchedule<AppointmentData> TheScheduler;
+    List<AppointmentData> DataSource = new List<AppointmentData>();
     DateTime CurrentDate = new DateTime(2020, 2, 13);
     public class AppointmentData
     {
@@ -46,26 +58,63 @@
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public bool IsAllDay { get; set; }
+        public bool IsBlock { get; set; }
         public string RecurrenceRule { get; set; }
         public string RecurrenceException { get; set; }
         public Nullable<int> RecurrenceID { get; set; }
+        @* public string CategoryColor { get; set; } *@
     }
-    [Inject]
-    public ILocalStorageService LocalStorage { get; set; } = null!;
+    @* [Inject]
+    public ILocalStorageService LocalStorage { get; set; } = null!; *@
     const string SubmitRequestMeetingUri = "";
     const string QueryAvailableSlotsUri = "";
-    MyRequestMeeting Request = new MyRequestMeeting();
-    DateRange[] availableSlots = new DateRange[0];
-    protected override async Task OnInitializedAsync() => await GetAvailableSlots();
-    private async Task GetAvailableSlots() =>
-    availableSlots = await Http.GetFromJsonAsync<DateRange[]>(QueryAvailableSlotsUri);
+    
+    protected override async Task OnInitializedAsync() {
+        System.DateTime DTN = System.DateTime.Today.AddHours(DateTime.Now.Hour);
+        await GetAvailableSlots();
+        DataSource.Add(new AppointmentData
+        {
+            Id = 1,
+            Subject = "Meeting 1",
+            StartTime = DTN,
+            EndTime = DTN.AddHours(1),
+            IsAllDay = false,
+            IsBlock = true,
+        });
+        DataSource.Add(new AppointmentData
+        {
+            Id = 2,
+            Subject = "Meeting 2",
+            StartTime = DTN.AddHours(1),
+            EndTime = DTN.AddHours(2),
+            IsAllDay = false,
+            IsBlock = true,
+        });
+        DataSource.Add(new AppointmentData
+        {
+            Id = 3,
+            Subject = "Meeting 3",
+            StartTime = DTN.AddHours(5),
+            EndTime = DTN.AddHours(6),
+            IsAllDay = false,
+        });
+        DataSource.Add(new AppointmentData
+        {
+            Id = 4,
+            Subject = "Meeting 4",
+            StartTime = DTN.AddHours(24),
+            EndTime = DTN.AddHours(25),
+            IsAllDay = false,
+            IsBlock = true,
+        });
+    }
     private async Task Submit()
     {
         var requestMessage = new HttpRequestMessage()
         {
             Method = new HttpMethod("POST"),
             RequestUri = new Uri(SubmitRequestMeetingUri),
-            Content = JsonContent.Create(Request)
+            @* Content = JsonContent.Create(Request) *@
         };
         var response = await Http.SendAsync(requestMessage);
         var responseStatusCode = response.StatusCode;
@@ -86,4 +135,13 @@
             responseBody = await response.Content.ReadAsStringAsync();
             } *@
     }
+
+    public void OnActionBegin(ActionEventArgs<AppointmentData> args)
+    {
+        if (args.ActionType == ActionType.EventCreate || args.ActionType == ActionType.EventChange || args.ActionType == ActionType.EventRemove)
+        {
+            @* CreateRequest(args); *@
+        }
+    }
+
 }
