@@ -5,6 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <!-- <EmitCompilerGeneratedFiles Condition="'$(Configuration)' == 'Debug'">true</EmitCompilerGeneratedFiles>  -->
     <!-- <BlazorWasmPrerenderingDeleteLoadingContents>true</BlazorWasmPrerenderingDeleteLoadingContents> -->
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <PublishTrimmed>true</PublishTrimmed>
+    <TrimMode>Link</TrimMode>
   </PropertyGroup>
   <Target Name="Remove Generated CS files before regenerating as workaround" Condition="'$(cs)' == 'true'" BeforeTargets="CoreClean">
     <ItemGroup>
