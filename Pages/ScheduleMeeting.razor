@@ -10,9 +10,14 @@
     <InputText @bind-Value="Request.Message" aria-placeholder="" /> *@
     <button class="btn btn-primary" @onclick="this.Submit">Schedule</button>
 @* </EditForm> *@
-    <SfSchedule TValue="AppointmentData" Height="100%" @ref="TheScheduler"
-        EnablePersistence="true" @bind-SelectedDate="@SelectedDate" @bind-CurrentView="@CurrentView"
-        OnActionBegin="OnActionBegin">
+@* https://blazor.syncfusion.com/documentation/scheduler/events *@
+    <SfSchedule TValue="AppointmentData" Height="100%"
+        @ref="TheScheduler"
+        EnablePersistence="true"
+        @bind-SelectedDate="@SelectedDate"
+        @bind-CurrentView="@CurrentView"
+        >
+        <ScheduleEvents TValue="AppointmentData" OnActionBegin="OnActionBegin"></ScheduleEvents>
         <ScheduleEventSettings DataSource="@DataSource">
             <ScheduleField>
                 @* <FieldEmail Title="Email"></FieldEmail> *@
@@ -44,6 +49,10 @@
     private async Task GetAvailableSlots()
     {
         @* availableSlots = await Http.GetFromJsonAsync<(DateTime, DateTime)[]>(QueryAvailableSlotsUri); *@
+       @* var MyEvents = await Http.GetStringAsync("");
+        var ImportedEvent = await TheScheduler.ImportICalendarAsync(MyEvents); *@
+        @* TheScheduler.ExportToICalendarAsync(null, listOfAppointmentData); *@
+        @* DataSource *@
     }
     SfSchedule<AppointmentData> TheScheduler;
     List<AppointmentData> DataSource = new List<AppointmentData>();
@@ -68,6 +77,7 @@
     public ILocalStorageService LocalStorage { get; set; } = null!; *@
     const string SubmitRequestMeetingUri = "";
     const string QueryAvailableSlotsUri = "";
+    const string QueryMyMeeting = "";
     
     protected override async Task OnInitializedAsync() {
         System.DateTime DTN = System.DateTime.Today.AddHours(DateTime.Now.Hour);
@@ -143,5 +153,4 @@
             @* CreateRequest(args); *@
         }
     }
-
 }
