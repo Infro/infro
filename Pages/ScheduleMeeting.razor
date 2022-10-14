@@ -1,5 +1,5 @@
 ﻿@page "/scheduleMeeting"
-@inject HttpClient Http
+@inject HttpClient http
 
 <PageTitle>Select a date and time and method of contact.</PageTitle>
 @* https://blazor.syncfusion.com/documentation/scheduler/editor-template *@
@@ -80,6 +80,18 @@
     const string QueryMyMeeting = "";
     
     protected override async Task OnInitializedAsync() {
+        var myiCal = await http.GetStringAsync("https://1fk30v89v4.execute-api.us-west-1.amazonaws.com/Prod/api/sync");
+        #region Stupid Hack To remove alldayevent.
+        var calendar = Ical.Net.Calendar.Load(myiCal);
+        calendar.Events.Remove(calendar.Events.Single(o=> o.Uid=="6kojed9m6dimcbb361h3eb9kcpij0bb1ckr32b9ncks68d9l6op36o9j6k@google.com"));
+        var myiCal2 = new Ical.Net.Serialization.CalendarSerializer().SerializeToString(calendar);
+        #endregion
+        await TheScheduler.ImportICalendarAsync(myiCal2);
+        foreach(var item in DataSource)
+        {
+            item.IsBlock = true;
+        }
+@*         
         System.DateTime DTN = System.DateTime.Today.AddHours(DateTime.Now.Hour);
         await GetAvailableSlots();
         DataSource.Add(new AppointmentData
@@ -116,7 +128,7 @@
             EndTime = DTN.AddHours(25),
             IsAllDay = false,
             IsBlock = true,
-        });
+        }); *@
     }
     private async Task Submit()
     {
@@ -126,7 +138,7 @@
             RequestUri = new Uri(SubmitRequestMeetingUri),
             @* Content = JsonContent.Create(Request) *@
         };
-        var response = await Http.SendAsync(requestMessage);
+        var response = await http.SendAsync(requestMessage);
         var responseStatusCode = response.StatusCode;
         var responseBody = await response.Content.ReadAsStringAsync();
         @* var tokenResult = await TokenProvider.RequestAccessToken();
@@ -154,3 +166,13 @@
         }
     }
 }
+@* 
+Microsoft.AspNetCore.Components.WebAssembly.Rendering.WebAssemblyRenderer[100]
+      Unhandled exception rendering component: Index and length must refer to a location within the string. (Parameter 'length')
+System.ArgumentOutOfRangeException: Index and length must refer to a location within the string. (Parameter 'length')
+   at System.String.Substring(Int32 startIndex, Int32 length)
+   at Syncfusion.Blazor.Schedule.Internal.ICSImport`1[[infro.github.io.Pages.ScheduleMeeting.AppointmentData, infro.github.io, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]].GetDateFromString(String input)
+   at Syncfusion.Blazor.Schedule.Internal.ICSImport`1[[infro.github.io.Pages.ScheduleMeeting.AppointmentData, infro.github.io, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]].RenderingImportAppointments(String ical, EventFieldsMapping eventFields)
+   at Syncfusion.Blazor.Schedule.SfSchedule`1.<ImportICalendarAsync>d__280[[infro.github.io.Pages.ScheduleMeeting.AppointmentData, infro.github.io, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]].MoveNext()
+   at infro.github.io.Pages.ScheduleMeeting.OnInitializedAsync() in C:\Users\ggwadult\dev\dev.sync\infro.github.io\Pages\ScheduleMeeting.razor:line 84
+   at  *@
