@@ -59,7 +59,7 @@
     DateTime CurrentDate = new DateTime(2020, 2, 13);
     public class AppointmentData
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Email { get; set; }
         public string Subject { get; set; }
         public string Description { get; set; }
@@ -70,65 +70,45 @@
         public bool IsBlock { get; set; }
         public string RecurrenceRule { get; set; }
         public string RecurrenceException { get; set; }
-        public Nullable<int> RecurrenceID { get; set; }
+        public string? RecurrenceID { get; set; }
         @* public string CategoryColor { get; set; } *@
     }
     @* [Inject]
     public ILocalStorageService LocalStorage { get; set; } = null!; *@
-    const string SubmitRequestMeetingUri = "";
-    const string QueryAvailableSlotsUri = "";
+    const string SubmitRequestMeetingUri = "https://1fk30v89v4.execute-api.us-west-1.amazonaws.com/Prod/api/events";
+    const string QueryAvailableSlotsUri = "https://1fk30v89v4.execute-api.us-west-1.amazonaws.com/Prod/api/sync";
     const string QueryMyMeeting = "";
     
     protected override async Task OnInitializedAsync() {
-        var myiCal = await http.GetStringAsync("https://1fk30v89v4.execute-api.us-west-1.amazonaws.com/Prod/api/sync");
+        var myiCal = await http.GetStringAsync(QueryAvailableSlotsUri);
         #region Stupid Hack To remove alldayevent.
         var calendar = Ical.Net.Calendar.Load(myiCal);
-        calendar.Events.Remove(calendar.Events.Single(o=> o.Uid=="6kojed9m6dimcbb361h3eb9kcpij0bb1ckr32b9ncks68d9l6op36o9j6k@google.com"));
-        var myiCal2 = new Ical.Net.Serialization.CalendarSerializer().SerializeToString(calendar);
+        foreach(var ev in calendar.Events)
+        {
+            Console.WriteLine(ev.Uid);
+            DataSource.Add(new AppointmentData
+            {
+                Description = ev.Description ?? "No Description",
+                Email = "",
+                StartTime = ev.DtStart?.AsSystemLocal ?? DateTime.Today.ToUniversalTime(),
+                EndTime = (ev.DtEnd ?? ev.DtStart.AddHours(1)).AsSystemLocal,
+                Id = string.IsNullOrWhiteSpace(ev.Uid) ? Guid.NewGuid().ToString() : ev.Uid,
+                IsBlock = true,
+                IsAllDay = ev.IsAllDay,
+                Location = ev.Location ?? "",
+                @* RecurrenceException = ev.RecurrenceRules, *@
+                RecurrenceID = ev.Uid ?? "",
+                RecurrenceException = "", //Will Need to be 
+                RecurrenceRule = ev.Properties["RRULE"].Value.ToString() ?? "",
+                Subject = ev.Summary ?? "",
+            });
+        }
         #endregion
-        await TheScheduler.ImportICalendarAsync(myiCal2);
-        foreach(var item in DataSource)
+        @* await TheScheduler.ImportICalendarAsync(myiCal2); *@
+        @* foreach(var item in DataSource)
         {
             item.IsBlock = true;
-        }
-@*         
-        System.DateTime DTN = System.DateTime.Today.AddHours(DateTime.Now.Hour);
-        await GetAvailableSlots();
-        DataSource.Add(new AppointmentData
-        {
-            Id = 1,
-            Subject = "Meeting 1",
-            StartTime = DTN,
-            EndTime = DTN.AddHours(1),
-            IsAllDay = false,
-            IsBlock = true,
-        });
-        DataSource.Add(new AppointmentData
-        {
-            Id = 2,
-            Subject = "Meeting 2",
-            StartTime = DTN.AddHours(1),
-            EndTime = DTN.AddHours(2),
-            IsAllDay = false,
-            IsBlock = true,
-        });
-        DataSource.Add(new AppointmentData
-        {
-            Id = 3,
-            Subject = "Meeting 3",
-            StartTime = DTN.AddHours(5),
-            EndTime = DTN.AddHours(6),
-            IsAllDay = false,
-        });
-        DataSource.Add(new AppointmentData
-        {
-            Id = 4,
-            Subject = "Meeting 4",
-            StartTime = DTN.AddHours(24),
-            EndTime = DTN.AddHours(25),
-            IsAllDay = false,
-            IsBlock = true,
-        }); *@
+        } *@
     }
     private async Task Submit()
     {
@@ -136,6 +116,7 @@
         {
             Method = new HttpMethod("POST"),
             RequestUri = new Uri(SubmitRequestMeetingUri),
+            Content = JsonContent.Create()
             @* Content = JsonContent.Create(Request) *@
         };
         var response = await http.SendAsync(requestMessage);

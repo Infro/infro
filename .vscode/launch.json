@@ -6,7 +6,13 @@
             "type": "blazorwasm",
             "request": "launch",
             "cwd": "${workspaceFolder}"
-        }
+        },
+        {
+            "name": "Attach and Debug",
+            "type": "blazorwasm",
+            "request": "attach",
+            "url": "{URL}"
+          }
     ]
 }
 // Unable to launch browser: "Could not open wss://localhost:5001/_framework/debug/ws-proxy?browser=ws%3A%2F%2F127.0.0.1%3A64215%2Fdevtools%2Fbrowser%2Fc7be60c1-7660-41b3-8e45-dda30d39722a"

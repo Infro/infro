@@ -11,6 +11,8 @@
     <PublishReadyToRun>true</PublishReadyToRun>
     <PublishTrimmed>true</PublishTrimmed>
     <TrimMode>Link</TrimMode>
+    <DebuggerSupport Condition="'$(Configuration)' == 'Debug'">true</DebuggerSupport>
+    <CopyOutputSymbolsToPublishDirectory Condition="'$(Configuration)' == 'Debug'">true</CopyOutputSymbolsToPublishDirectory>
   </PropertyGroup>
   <Target Name="Remove Generated CS files before regenerating as workaround" Condition="'$(cs)' == 'true'" BeforeTargets="CoreClean">
     <ItemGroup>
