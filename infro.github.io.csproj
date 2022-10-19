@@ -5,10 +5,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <!-- <EmitCompilerGeneratedFiles Condition="'$(Configuration)' == 'Debug'">true</EmitCompilerGeneratedFiles>  -->
     <!-- <BlazorWasmPrerenderingDeleteLoadingContents>true</BlazorWasmPrerenderingDeleteLoadingContents> -->
-    <PublishSingleFile>true</PublishSingleFile>
+    <RuntimeIdentifier Condition="'$(Configuration)' == 'Release'">linux-x64</RuntimeIdentifier>
+    <!-- <PublishSingleFile>true</PublishSingleFile> -->
+    <!-- <PublishReadyToRun>true</PublishReadyToRun> -->
     <SelfContained>true</SelfContained>
-    <!-- <RuntimeIdentifier Condition>linux-x64</RuntimeIdentifier> -->
-    <PublishReadyToRun>true</PublishReadyToRun>
     <PublishTrimmed>true</PublishTrimmed>
     <TrimMode>Link</TrimMode>
     <DebuggerSupport Condition="'$(Configuration)' == 'Debug'">true</DebuggerSupport>

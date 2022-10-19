@@ -1,56 +1,54 @@
 ﻿@page "/scheduleMeeting"
+@using System.Net
 @inject HttpClient http
+@inject ILogger<ScheduleMeeting> log
 
 <PageTitle>Select a date and time and method of contact.</PageTitle>
 @* https://blazor.syncfusion.com/documentation/scheduler/editor-template *@
 @* Can Import/Export ICS files TheScheudler.Import,,, What about single events? *@
 <h1>Schedule</h1>
 @* <EditForm> *@
-    @* <InputText @bind-Value="Request.Requestor._value" />
+@* <InputText @bind-Value="Request.Requestor._value" />
     <InputText @bind-Value="Request.Message" aria-placeholder="" /> *@
-    <button class="btn btn-primary" @onclick="this.Submit">Schedule</button>
+@* <button class="btn btn-primary" @onclick="this.Submit">Schedule</button> *@
 @* </EditForm> *@
 @* https://blazor.syncfusion.com/documentation/scheduler/events *@
-    <SfSchedule TValue="AppointmentData" Height="100%"
-        @ref="TheScheduler"
-        EnablePersistence="true"
-        @bind-SelectedDate="@SelectedDate"
-        @bind-CurrentView="@CurrentView"
-        >
-        <ScheduleEvents TValue="AppointmentData" OnActionBegin="OnActionBegin"></ScheduleEvents>
-        <ScheduleEventSettings DataSource="@DataSource">
-            <ScheduleField>
-                @* <FieldEmail Title="Email"></FieldEmail> *@
-                <FieldSubject Title="Subject"></FieldSubject>
-                <FieldLocation Title="E-Mail"></FieldLocation>
-                <FieldDescription Title="Comments"></FieldDescription>
-                <FieldIsAllDay Title="Full Day"></FieldIsAllDay>
-                <FieldStartTime Title="Departure Time"></FieldStartTime>
-                <FieldEndTime Title="Arrival Time"></FieldEndTime>
-                <FieldStartTimezone Title="Origin"></FieldStartTimezone>
-                <FieldEndTimezone Title="Destination"></FieldEndTimezone>
-            </ScheduleField>
-        </ScheduleEventSettings>
-        <ScheduleViews>
-            <ScheduleView Option="View.Day" StartHour="07:00" EndHour="18:00"></ScheduleView>
-            <ScheduleView Option="View.Week" StartHour="07:00" EndHour="18:00"></ScheduleView>
-            <ScheduleView Option="View.WorkWeek" StartHour="07:00" EndHour="18:00"></ScheduleView>
-            <ScheduleView Option="View.Month" MaxEventsPerRow="2" ShowWeekend="true"></ScheduleView>
-            @* <ScheduleView Option="View.Agenda"></ScheduleView> *@
-        </ScheduleViews>
-    </SfSchedule>
-
+<SfSchedule TValue="AppointmentData" Height="100%" @ref="TheScheduler" EnablePersistence="true"
+    @bind-SelectedDate="@SelectedDate" @bind-CurrentView="@CurrentView">
+    <ScheduleEvents TValue="AppointmentData" OnActionBegin="OnActionBegin"></ScheduleEvents>
+    <ScheduleEventSettings DataSource="@DataSource">
+        <ScheduleField>
+            @* <FieldEmail Title="Email"></FieldEmail> *@
+            <FieldSubject Title="Subject"></FieldSubject>
+            <FieldLocation Title="E-Mail"></FieldLocation>
+            <FieldDescription Title="Comments"></FieldDescription>
+            <FieldIsAllDay Title="Full Day"></FieldIsAllDay>
+            <FieldStartTime Title="Departure Time"></FieldStartTime>
+            <FieldEndTime Title="Arrival Time"></FieldEndTime>
+            <FieldStartTimezone Title="Origin"></FieldStartTimezone>
+            <FieldEndTimezone Title="Destination"></FieldEndTimezone>
+        </ScheduleField>
+    </ScheduleEventSettings>
+    <ScheduleViews>
+        <ScheduleView Option="View.Day" StartHour="07:00" EndHour="18:00"></ScheduleView>
+        <ScheduleView Option="View.Week" StartHour="07:00" EndHour="18:00"></ScheduleView>
+        <ScheduleView Option="View.WorkWeek" StartHour="07:00" EndHour="18:00"></ScheduleView>
+        <ScheduleView Option="View.Month" MaxEventsPerRow="2" ShowWeekend="true"></ScheduleView>
+        <ScheduleView Option="View.Year"></ScheduleView>
+        @* <ScheduleView Option="View.Agenda"></ScheduleView> *@
+    </ScheduleViews>
+</SfSchedule>
 @code {
     public DateTime SelectedDate = DateTime.Now;
     public View CurrentView = View.Week;
 
-    
+
     (DateTime, DateTime)[] availableSlots;
     private async Task GetAvailableSlots()
     {
         @* availableSlots = await Http.GetFromJsonAsync<(DateTime, DateTime)[]>(QueryAvailableSlotsUri); *@
-       @* var MyEvents = await Http.GetStringAsync("");
-        var ImportedEvent = await TheScheduler.ImportICalendarAsync(MyEvents); *@
+        @* var MyEvents = await Http.GetStringAsync("");
+            var ImportedEvent = await TheScheduler.ImportICalendarAsync(MyEvents); *@
         @* TheScheduler.ExportToICalendarAsync(null, listOfAppointmentData); *@
         @* DataSource *@
     }
@@ -71,89 +69,161 @@
         public string RecurrenceRule { get; set; }
         public string RecurrenceException { get; set; }
         public string? RecurrenceID { get; set; }
+
+        public AppointmentData Clone()
+        {
+            return new AppointmentData
+            {
+                Id = this.Id,
+                Email = this.Email,
+                Subject = this.Subject,
+                Description = this.Description,
+                Location = this.Location,
+                StartTime = this.StartTime,
+                EndTime = this.EndTime,
+                IsAllDay = this.IsAllDay,
+                IsBlock = this.IsBlock,
+                RecurrenceRule = this.RecurrenceRule,
+                RecurrenceException = this.RecurrenceException,
+                RecurrenceID = this. RecurrenceID,
+            };
+        }
         @* public string CategoryColor { get; set; } *@
     }
     @* [Inject]
-    public ILocalStorageService LocalStorage { get; set; } = null!; *@
+        public ILocalStorageService LocalStorage { get; set; } = null!; *@
     const string SubmitRequestMeetingUri = "https://1fk30v89v4.execute-api.us-west-1.amazonaws.com/Prod/api/events";
     const string QueryAvailableSlotsUri = "https://1fk30v89v4.execute-api.us-west-1.amazonaws.com/Prod/api/sync";
     const string QueryMyMeeting = "";
-    
-    protected override async Task OnInitializedAsync() {
-        var myiCal = await http.GetStringAsync(QueryAvailableSlotsUri);
-        #region Stupid Hack To remove alldayevent.
-        var calendar = Ical.Net.Calendar.Load(myiCal);
-        foreach(var ev in calendar.Events)
-        {
-            Console.WriteLine(ev.Uid);
-            DataSource.Add(new AppointmentData
-            {
-                Description = ev.Description ?? "No Description",
-                Email = "",
-                StartTime = ev.DtStart?.AsSystemLocal ?? DateTime.Today.ToUniversalTime(),
-                EndTime = (ev.DtEnd ?? ev.DtStart.AddHours(1)).AsSystemLocal,
-                Id = string.IsNullOrWhiteSpace(ev.Uid) ? Guid.NewGuid().ToString() : ev.Uid,
-                IsBlock = true,
-                IsAllDay = ev.IsAllDay,
-                Location = ev.Location ?? "",
-                @* RecurrenceException = ev.RecurrenceRules, *@
-                RecurrenceID = ev.Uid ?? "",
-                RecurrenceException = "", //Will Need to be 
-                RecurrenceRule = ev.Properties["RRULE"].Value.ToString() ?? "",
-                Subject = ev.Summary ?? "",
-            });
-        }
-        #endregion
-        @* await TheScheduler.ImportICalendarAsync(myiCal2); *@
-        @* foreach(var item in DataSource)
-        {
-            item.IsBlock = true;
-        } *@
-    }
-    private async Task Submit()
+
+    protected override async Task OnInitializedAsync()
     {
-        var requestMessage = new HttpRequestMessage()
+        @* DataSource = new List<AppointmentData>(); *@
+        var myiCal = await http.GetStringAsync(QueryAvailableSlotsUri);
+
+        var calendar = Ical.Net.Calendar.Load(myiCal);
+        foreach (var ev in calendar.Events)
         {
-            Method = new HttpMethod("POST"),
-            RequestUri = new Uri(SubmitRequestMeetingUri),
-            Content = JsonContent.Create()
-            @* Content = JsonContent.Create(Request) *@
-        };
+            try
+            {
+                string evRecurrenceRule = string.Empty;
+                HashSet<Ical.Net.DataTypes.Occurrence>? occurances = null;
+                var x = ev.Properties.Where(prop => prop.Name == "RRULE");
+                if (x.Count() == 1)
+                {
+                    evRecurrenceRule = x.Single().Value.ToString();
+                    occurances = ev.GetOccurrences(DateTime.Today.AddDays(-7), DateTime.Today.AddMonths(2));
+                }
+                var ad = new AppointmentData
+                {
+                    @* Description = ev.Description ?? "No Description", *@
+                    Description = "",
+                    Email = "",
+                    StartTime = ev.DtStart?.AsSystemLocal ?? DateTime.Today.ToLocalTime(),
+                    EndTime = (ev.DtEnd ?? ev.DtStart?.AddHours(1))?.AsSystemLocal ?? DateTime.Today.AddHours(24).ToLocalTime(),
+                    Id = string.IsNullOrWhiteSpace(ev.Uid) ? Guid.NewGuid().ToString() : ev.Uid,
+                    IsBlock = true,
+                    IsAllDay = ev.IsAllDay,
+                    Location = ev.Location ?? "",
+                    @* RecurrenceException = ev.RecurrenceRules, *@
+                    RecurrenceID = ev.Uid ?? "",
+                    RecurrenceException = "", //Will Need to be
+                    RecurrenceRule = evRecurrenceRule,
+                    Subject = ev.Summary ?? "",
+                };
+                if (occurances != null)
+                    foreach (var oc in occurances)
+                    {
+                        var newad = ad.Clone();
+                        newad.StartTime = oc.Period.StartTime.AsSystemLocal;
+                        newad.EndTime = oc.Period.EndTime.AsSystemLocal;
+                        if(newad.StartTime >= DateTime.Today)
+                            DataSource.Add(newad);
+                    }
+                else if(ad.StartTime >= DateTime.Today)
+                    DataSource.Add(ad);
+            }
+            catch (Exception ex)
+            {
+                log.LogError(ex, "Failed to Add something.");
+            }
+        }
+    }
+    public async Task OnActionBegin(ActionEventArgs<AppointmentData> args)
+    {
+        if (args.ActionType == ActionType.EventCreate || args.ActionType == ActionType.EventChange || args.ActionType ==
+        ActionType.EventRemove)
+        {
+            @* var checkResult = PostRequest(args).GetAwaiter().GetResult(); *@
+            var checkResult = await PostRequest(args);
+            if (checkResult != HttpStatusCode.OK)
+            {
+                log.LogWarning("Failed Request with " + checkResult.ToString());
+            }
+        }
+    }
+
+    private async Task<HttpStatusCode> PostRequest(ActionEventArgs<AppointmentData> args)
+    {
+        HttpRequestMessage requestMessage = new HttpRequestMessage() { RequestUri = new Uri(SubmitRequestMeetingUri) };
+        
+        switch (args.ActionType)
+        {
+            case ActionType.EventCreate:
+                requestMessage.Method = new HttpMethod("POST");
+                requestMessage.Content = JsonContent.Create(args.AddedRecords[0]);
+                break;
+            case ActionType.EventChange:
+                requestMessage.Method = new HttpMethod("POST");
+                requestMessage.Content = JsonContent.Create(args.AddedRecords[0]);
+                break;
+            case ActionType.EventRemove:
+                requestMessage.Method = new HttpMethod("POST");
+                requestMessage.Content = JsonContent.Create(args.AddedRecords[0]);
+                break;
+            default:
+                return HttpStatusCode.BadRequest;
+        }
         var response = await http.SendAsync(requestMessage);
         var responseStatusCode = response.StatusCode;
         var responseBody = await response.Content.ReadAsStringAsync();
-        @* var tokenResult = await TokenProvider.RequestAccessToken();
-
-            if (tokenResult.TryGetToken(out var token))
-            {
-            requestMessage.Headers.Authorization =
-            new AuthenticationHeaderValue("Bearer", token.Value);
-
-            requestMessage.Content.Headers.TryAddWithoutValidation(
-            "x-custom-header", "value");
-
-            var response = await Http.SendAsync(requestMessage);
-            var responseStatusCode = response.StatusCode;
-
-            responseBody = await response.Content.ReadAsStringAsync();
-            } *@
-    }
-
-    public void OnActionBegin(ActionEventArgs<AppointmentData> args)
-    {
-        if (args.ActionType == ActionType.EventCreate || args.ActionType == ActionType.EventChange || args.ActionType == ActionType.EventRemove)
-        {
-            @* CreateRequest(args); *@
-        }
+        return responseStatusCode;
     }
 }
+@*
+    Microsoft.AspNetCore.Components.WebAssembly.Rendering.WebAssemblyRenderer[100]
+    Unhandled exception rendering component: Index and length must refer to a location within the string. (Parameter
+    'length')
+    System.ArgumentOutOfRangeException: Index and length must refer to a location within the string. (Parameter 'length')
+    at System.String.Substring(Int32 startIndex, Int32 length)
+    at Syncfusion.Blazor.Schedule.Internal.ICSImport`1[[infro.github.io.Pages.ScheduleMeeting.AppointmentData,
+    infro.github.io, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]].GetDateFromString(String input)
+    at Syncfusion.Blazor.Schedule.Internal.ICSImport`1[[infro.github.io.Pages.ScheduleMeeting.AppointmentData,
+    infro.github.io, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]].RenderingImportAppointments(String ical,
+    EventFieldsMapping eventFields)
+    at
+    Syncfusion.Blazor.Schedule.SfSchedule`1.<ImportICalendarAsync>d__280[[infro.github.io.Pages.ScheduleMeeting.AppointmentData,
+    infro.github.io, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]].MoveNext()
+    at infro.github.io.Pages.ScheduleMeeting.OnInitializedAsync() in
+    C:\Users\ggwadult\dev\dev.sync\infro.github.io\Pages\ScheduleMeeting.razor:line 84
+    at *@
 @* 
-Microsoft.AspNetCore.Components.WebAssembly.Rendering.WebAssemblyRenderer[100]
-      Unhandled exception rendering component: Index and length must refer to a location within the string. (Parameter 'length')
-System.ArgumentOutOfRangeException: Index and length must refer to a location within the string. (Parameter 'length')
-   at System.String.Substring(Int32 startIndex, Int32 length)
-   at Syncfusion.Blazor.Schedule.Internal.ICSImport`1[[infro.github.io.Pages.ScheduleMeeting.AppointmentData, infro.github.io, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]].GetDateFromString(String input)
-   at Syncfusion.Blazor.Schedule.Internal.ICSImport`1[[infro.github.io.Pages.ScheduleMeeting.AppointmentData, infro.github.io, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]].RenderingImportAppointments(String ical, EventFieldsMapping eventFields)
-   at Syncfusion.Blazor.Schedule.SfSchedule`1.<ImportICalendarAsync>d__280[[infro.github.io.Pages.ScheduleMeeting.AppointmentData, infro.github.io, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]].MoveNext()
-   at infro.github.io.Pages.ScheduleMeeting.OnInitializedAsync() in C:\Users\ggwadult\dev\dev.sync\infro.github.io\Pages\ScheduleMeeting.razor:line 84
-   at  *@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Event</th>
+            <th>Start</th>
+            <th>End</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in this.DataSource)
+        {
+            <tr>
+                <td>@item.Subject</td>
+                <td>@item.StartTime.ToString()</td>
+                <td>@item.EndTime.ToString()</td>
+            </tr>
+        }
+    </tbody>
+</table> *@
