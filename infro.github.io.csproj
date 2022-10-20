@@ -6,8 +6,8 @@
     <!-- <EmitCompilerGeneratedFiles Condition="'$(Configuration)' == 'Debug'">true</EmitCompilerGeneratedFiles>  -->
     <!-- <BlazorWasmPrerenderingDeleteLoadingContents>true</BlazorWasmPrerenderingDeleteLoadingContents> -->
     <!-- <BlazorWasmPrerenderingKeepServer>EVIL.DON'T.DO!true</BlazorWasmPrerenderingKeepServer> -->
-    <!-- <RuntimeIdentifier Condition="'$(Configuration)' == 'Release'">linux-x64</RuntimeIdentifier>
-    <PublishSingleFile>true</PublishSingleFile>
+    <RuntimeIdentifier Condition="'$(Configuration)' == 'Release'">linux-x64</RuntimeIdentifier>
+  <!--  <PublishSingleFile>true</PublishSingleFile>
     <PublishReadyToRun>true</PublishReadyToRun>
     <SelfContained>true</SelfContained>
     <PublishTrimmed>true</PublishTrimmed>
