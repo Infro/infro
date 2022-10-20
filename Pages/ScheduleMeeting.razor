@@ -96,6 +96,7 @@
     const string QueryAvailableSlotsUri = "https://1fk30v89v4.execute-api.us-west-1.amazonaws.com/Prod/api/sync";
     const string QueryMyMeeting = "";
 
+
     protected override async Task OnInitializedAsync()
     {
         @* DataSource = new List<AppointmentData>(); *@
@@ -148,11 +149,15 @@
                 log.LogError(ex, "Failed to Add something.");
             }
         }
-        await TheScheduler.AddEventAsync(new AppointmentData {
-            Subject = "Refresh",
-            StartTime = DateTime.Today.AddYears(-1),
-            EndTime = DateTime.Today.AddYears(-1).AddHours(1)
-        });
+        if(false)
+        {
+            await TheScheduler.AddEventAsync(new AppointmentData {
+                Id = Guid.NewGuid().ToString(),
+                Subject = "Refresh",
+                StartTime = DateTime.Today.AddYears(-1),
+                EndTime = DateTime.Today.AddYears(-1).AddHours(1),
+            });
+        }
     }
     public async Task OnActionBegin(ActionEventArgs<AppointmentData> args)
     {
