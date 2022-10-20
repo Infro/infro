@@ -148,6 +148,11 @@
                 log.LogError(ex, "Failed to Add something.");
             }
         }
+        await TheScheduler.AddEventAsync(new AppointmentData {
+            Subject = "Refresh",
+            StartTime = DateTime.Today.AddYears(-1),
+            EndTime = DateTime.Today.AddYears(-1).AddHours(1)
+        });
     }
     public async Task OnActionBegin(ActionEventArgs<AppointmentData> args)
     {

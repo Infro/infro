@@ -5,12 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <!-- <EmitCompilerGeneratedFiles Condition="'$(Configuration)' == 'Debug'">true</EmitCompilerGeneratedFiles>  -->
     <BlazorWasmPrerenderingDeleteLoadingContents>true</BlazorWasmPrerenderingDeleteLoadingContents>
-    <RuntimeIdentifier Condition="'$(Configuration)' == 'Release'">linux-x64</RuntimeIdentifier>
+    <!-- <RuntimeIdentifier Condition="'$(Configuration)' == 'Release'">linux-x64</RuntimeIdentifier> -->
     <PublishSingleFile>true</PublishSingleFile>
     <PublishReadyToRun>true</PublishReadyToRun>
     <SelfContained>true</SelfContained>
     <PublishTrimmed>true</PublishTrimmed>
-    <TrimMode>Link</TrimMode>
+    <!-- <TrimMode>Link</TrimMode> -->
     <DebuggerSupport Condition="'$(Configuration)' == 'Debug'">true</DebuggerSupport>
     <CopyOutputSymbolsToPublishDirectory Condition="'$(Configuration)' == 'Debug'">true</CopyOutputSymbolsToPublishDirectory>
   </PropertyGroup>
