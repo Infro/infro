@@ -4,6 +4,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <!-- <EmitCompilerGeneratedFiles Condition="'$(Configuration)' == 'Debug'">true</EmitCompilerGeneratedFiles>  -->
+    <!-- https://learn.microsoft.com/en-us/aspnet/core/blazor/components/prerendering-and-integration?view=aspnetcore-6.0&pivots=webassembly -->
     <BlazorWasmPrerenderingMode>WebAssemblyPrerendered</BlazorWasmPrerenderingMode>
     <BlazorEnableCompression>true</BlazorEnableCompression>
     <!-- <GHPagesRoot>/</GHPagesRoot> -->
@@ -34,7 +35,8 @@
     <PackageReference Include="Blazor.Extensions.Canvas" Version="1.1.1" />
     <PackageReference Include="Blazor.LocalStorage" Version="2.0.10" />
     <PackageReference Include="BlazorDateRangePicker" Version="4.2.0" />
-    <!-- <PackageReference Include="BlazorWasmPreRendering.Build" Version="1.0.0-preview.28.0" /> -->
+    <!-- https://github.com/jsakamoto/BlazorWasmPreRendering.Build -->
+    <PackageReference Include="BlazorWasmPreRendering.Build" Version="1.0.0-preview.28.0" />
     <PackageReference Include="Ical.Net" Version="4.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.9" PrivateAssets="all" />
