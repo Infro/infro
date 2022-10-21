@@ -28,6 +28,13 @@ jobs:
       - name: Publish
         run: dotnet publish infro.github.io.csproj -c:Release -o:public -p:GHPages=true
 
+      # Hack the base href
+      - name: Base reset
+        uses: SteveSandersonMS/ghaction-rewrite-base-href@v1.1.0
+        with:
+          html_glob: 'public/wwwroot/**/*.html'
+          base_href: '/'
+
       # Deploy the site
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3

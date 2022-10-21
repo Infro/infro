@@ -16,7 +16,7 @@
 <SfSchedule TValue="AppointmentData" Height="100%" @ref="TheScheduler" EnablePersistence="true"
     @bind-SelectedDate="@SelectedDate" @bind-CurrentView="@CurrentView">
     <ScheduleEvents TValue="AppointmentData" OnActionBegin="OnActionBegin"></ScheduleEvents>
-    <ScheduleEventSettings DataSource="@DataSource">
+    <ScheduleEventSettings DataSource="@ICalEvents">
         <ScheduleField>
             @* <FieldEmail Title="Email"></FieldEmail> *@
             <FieldSubject Title="Subject"></FieldSubject>
@@ -28,6 +28,7 @@
             <FieldStartTimezone Title="Origin"></FieldStartTimezone>
             <FieldEndTimezone Title="Destination"></FieldEndTimezone>
         </ScheduleField>
+        @* <SfDataManager AdaptorInstance="@typeof(CustomAdaptor)" Adaptor="Adaptors.CustomAdaptor"></SfDataManager> *@
     </ScheduleEventSettings>
     <ScheduleViews>
         <ScheduleView Option="View.Day" StartHour="07:00" EndHour="18:00"></ScheduleView>
@@ -50,10 +51,10 @@
         @* var MyEvents = await Http.GetStringAsync("");
             var ImportedEvent = await TheScheduler.ImportICalendarAsync(MyEvents); *@
         @* TheScheduler.ExportToICalendarAsync(null, listOfAppointmentData); *@
-        @* DataSource *@
+        @* ICalEvents *@
     }
     SfSchedule<AppointmentData> TheScheduler;
-    List<AppointmentData> DataSource = new List<AppointmentData>();
+    List<AppointmentData> ICalEvents;
     DateTime CurrentDate = new DateTime(2020, 2, 13);
     public class AppointmentData
     {
@@ -99,7 +100,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        @* DataSource = new List<AppointmentData>(); *@
+        var ICalEvents = new List<AppointmentData>();
         var myiCal = await http.GetStringAsync(QueryAvailableSlotsUri);
 
         var calendar = Ical.Net.Calendar.Load(myiCal);
@@ -139,10 +140,10 @@
                         newad.StartTime = oc.Period.StartTime.AsSystemLocal;
                         newad.EndTime = oc.Period.EndTime.AsSystemLocal;
                         if(newad.StartTime >= DateTime.Today)
-                            DataSource.Add(newad);
+                            ICalEvents.Add(newad);
                     }
                 else if(ad.StartTime >= DateTime.Today)
-                    DataSource.Add(ad);
+                    ICalEvents.Add(ad);
             }
             catch (Exception ex)
             {
@@ -158,6 +159,7 @@
                 EndTime = DateTime.Today.AddYears(-1).AddHours(1),
             });
         }
+        this.ICalEvents = ICalEvents;
     }
     public async Task OnActionBegin(ActionEventArgs<AppointmentData> args)
     {
@@ -227,7 +229,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in this.DataSource)
+        @foreach (var item in this.ICalEvents)
         {
             <tr>
                 <td>@item.Subject</td>
