@@ -186,12 +186,12 @@
                 requestMessage.Content = JsonContent.Create(args.AddedRecords[0]);
                 break;
             case ActionType.EventChange:
-                requestMessage.Method = new HttpMethod("POST");
-                requestMessage.Content = JsonContent.Create(args.AddedRecords[0]);
+                requestMessage.Method = new HttpMethod("PUT");
+                requestMessage.Content = JsonContent.Create(args.ChangedRecords[0]);
                 break;
             case ActionType.EventRemove:
-                requestMessage.Method = new HttpMethod("POST");
-                requestMessage.Content = JsonContent.Create(args.AddedRecords[0]);
+                requestMessage.Method = new HttpMethod("DELETE");
+                requestMessage.Content = JsonContent.Create(args.DeletedRecords[0]);
                 break;
             default:
                 return HttpStatusCode.BadRequest;
