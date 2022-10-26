@@ -43,16 +43,6 @@
     public DateTime SelectedDate = DateTime.Now;
     public View CurrentView = View.Week;
 
-
-    (DateTime, DateTime)[] availableSlots;
-    private async Task GetAvailableSlots()
-    {
-        @* availableSlots = await Http.GetFromJsonAsync<(DateTime, DateTime)[]>(QueryAvailableSlotsUri); *@
-        @* var MyEvents = await Http.GetStringAsync("");
-            var ImportedEvent = await TheScheduler.ImportICalendarAsync(MyEvents); *@
-        @* TheScheduler.ExportToICalendarAsync(null, listOfAppointmentData); *@
-        @* ICalEvents *@
-    }
     SfSchedule<AppointmentData> TheScheduler;
     List<AppointmentData> ICalEvents;
     DateTime CurrentDate = new DateTime(2020, 2, 13);
@@ -149,15 +139,6 @@
             {
                 log.LogError(ex, "Failed to Add something.");
             }
-        }
-        if(false)
-        {
-            await TheScheduler.AddEventAsync(new AppointmentData {
-                Id = Guid.NewGuid().ToString(),
-                Subject = "Refresh",
-                StartTime = DateTime.Today.AddYears(-1),
-                EndTime = DateTime.Today.AddYears(-1).AddHours(1),
-            });
         }
         this.ICalEvents = ICalEvents;
     }
