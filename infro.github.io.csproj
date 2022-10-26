@@ -10,7 +10,7 @@
     <!-- <GHPagesRoot>/</GHPagesRoot> -->
     <GHPagesBase>/</GHPagesBase>
     <GHPages>true</GHPages>
-    <!-- <BlazorWasmPrerenderingDeleteLoadingContents>true</BlazorWasmPrerenderingDeleteLoadingContents> -->
+    <BlazorWasmPrerenderingDeleteLoadingContents>true</BlazorWasmPrerenderingDeleteLoadingContents>
     <!-- <BlazorWasmPrerenderingKeepServer>EVIL.DON'T.DO!true</BlazorWasmPrerenderingKeepServer> -->
     <!-- <RuntimeIdentifier Condition="'$(Configuration)' == 'Release'">linux-x64</RuntimeIdentifier>
     <PublishSingleFile>true</PublishSingleFile>
