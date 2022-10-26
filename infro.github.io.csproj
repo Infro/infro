@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <!-- <EmitCompilerGeneratedFiles Condition="'$(Configuration)' == 'Debug'">true</EmitCompilerGeneratedFiles>  -->
@@ -41,8 +41,8 @@
     <!-- https://www.nuget.org/packages/PublishSPAforGitHubPages.Build/ -->
     <PackageReference Include="PublishSPAforGitHubPages.Build" Version="2.0.2" /> 
     <PackageReference Include="Ical.Net" Version="4.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.9" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.9" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0-alpha.1.22525.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.0-alpha.1.22525.1" PrivateAssets="all" />
     <!-- <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" /> -->
     <PackageReference Include="Syncfusion.Blazor.Schedule" Version="20.3.0.48" />
     <PackageReference Include="Syncfusion.Blazor.Themes" Version="20.3.0.48" />
