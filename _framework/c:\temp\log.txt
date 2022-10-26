@@ -1,0 +1,17 @@
+FOUND    : infro.github.io() in /home/runner/work/infro.github.io/infro.github.io/public/wwwroot/_framework
+FOUND    : Microsoft.AspNetCore.Components.WebAssembly() in /home/runner/work/infro.github.io/infro.github.io/public/wwwroot/_framework
+FOUND    : Syncfusion.Blazor.Schedule() in /home/runner/work/infro.github.io/infro.github.io/public/wwwroot/_framework
+FOUND    : Syncfusion.Licensing() in /home/runner/work/infro.github.io/infro.github.io/public/wwwroot/_framework
+FOUND    : BlazorDateRangePicker() in /home/runner/work/infro.github.io/infro.github.io/public/wwwroot/_framework
+FOUND    : Syncfusion.Blazor.Core() in /home/runner/work/infro.github.io/infro.github.io/public/wwwroot/_framework
+FOUND    : Blazor.LocalStorage() in /home/runner/work/infro.github.io/infro.github.io/public/wwwroot/_framework
+FOUND    : Ical.Net() in /home/runner/work/infro.github.io/infro.github.io/public/wwwroot/_framework
+FOUND    : Syncfusion.Blazor.Data() in /home/runner/work/infro.github.io/infro.github.io/public/wwwroot/_framework
+FOUND    : Syncfusion.Blazor.Spinner() in /home/runner/work/infro.github.io/infro.github.io/public/wwwroot/_framework
+FOUND    : Syncfusion.Blazor.Calendars() in /home/runner/work/infro.github.io/infro.github.io/public/wwwroot/_framework
+NOT FOUND: Syncfusion.Blazor.Core.resources(en) in /home/runner/work/infro.github.io/infro.github.io/public/wwwroot/_framework
+FOUND    : Syncfusion.Blazor.Navigations() in /home/runner/work/infro.github.io/infro.github.io/public/wwwroot/_framework
+FOUND    : Syncfusion.Blazor.Inputs() in /home/runner/work/infro.github.io/infro.github.io/public/wwwroot/_framework
+FOUND    : Syncfusion.Blazor.Popups() in /home/runner/work/infro.github.io/infro.github.io/public/wwwroot/_framework
+FOUND    : Syncfusion.Blazor.Buttons() in /home/runner/work/infro.github.io/infro.github.io/public/wwwroot/_framework
+FOUND    : NodaTime() in /home/runner/work/infro.github.io/infro.github.io/public/wwwroot/_framework
