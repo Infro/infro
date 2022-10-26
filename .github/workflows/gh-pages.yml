@@ -2,8 +2,8 @@ name: github pages
 
 on:
   push:
-    branches:
-      - main
+    # branches:
+    #   - main
     tags:
       - 'v*'
 #  schedule:
@@ -27,6 +27,13 @@ jobs:
       # Publish the site
       - name: Publish
         run: dotnet publish infro.github.io.csproj -c:Release -o:public -p:GHPages=true
+
+      # # Set Base Href using MSBuild Property GHPagesBase
+      # - name: Base reset
+      #   uses: SteveSandersonMS/ghaction-rewrite-base-href@v1.1.0
+      #   with:
+      #     html_glob: 'public/wwwroot/**/*.html'
+      #     base_href: '/'
 
       # Deploy the site
       - name: Deploy

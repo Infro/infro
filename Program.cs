@@ -17,17 +17,22 @@ namespace infro.github.io
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
-            ConfigureServices(builder.Services, builder.HostEnvironment, builder.HostEnvironment.BaseAddress);
-
+            Console.WriteLine(builder.HostEnvironment.BaseAddress);
+            ConfigureServices(builder.Services, builder.HostEnvironment.BaseAddress);
+            if (builder.HostEnvironment.IsDevelopment())
+            {
+                //use builder.Services here
+            }
 
             await builder.Build().RunAsync();
+        }
 
-            static void ConfigureServices(IServiceCollection services, IWebAssemblyHostEnvironment env, string baseAddress)
+        private static void ConfigureServices(IServiceCollection services, string baseAddress)
             {
-                if (env.IsDevelopment())
-                {
+                // if (env.IsDevelopment())
+                // {
                     
-                }
+                // }
                 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NzMzMjc1QDMyMzAyZTMzMmUzMFpnbW9YY2M3RW8xcHo0OXpmcm04MXovaXlPbDZPN2ZGZHlGK0pXQ1pKbTQ9");
 
                 services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
@@ -49,6 +54,5 @@ namespace infro.github.io
                 // services.AddLogging(logger => logger.AddProvider(serilog));
                 //https://habr.com/en/post/591171/
             }
-        }
     }
 }
