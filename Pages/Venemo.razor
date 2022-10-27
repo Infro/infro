@@ -1,0 +1,22 @@
+﻿@page "/salsa"
+@inject IJSRuntime jsRuntime
+
+<PageTitle>Music Player</PageTitle>
+
+<input type="range" min="0.5" max="4" step="0.05"
+@bind- value="@actualNumber" @bind-value:event="oninput"/>
+<p>Playback Speed: @actualNumber</p>
+<audio src="Leoni-Torres-Lenier-Veneno.mp3" />
+@code{
+    float pbr { get; set; } = 1;
+
+    ElementReference MyElementReference;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await jsRuntime.InvokeAsync<object>("lemail", MyElementReference);
+        }
+    }
+}
