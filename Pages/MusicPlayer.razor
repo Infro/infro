@@ -1,0 +1,8 @@
+﻿@page "/musicPlayer"
+@inject IJSRuntime jsRuntime
+
+<PageTitle>Music Player</PageTitle>
+
+<input type="range" min="0.5" max="4" step="0.05" onchange="document.querySelector('audio').playbackRate=this.value;document.querySelector('span#pbr').textContent=this.value;" value=1 />
+<p>Playback Speed: <span id="pbr">1</span></p>
+<audio controls src="Leoni-Torres-Lenier-Veneno.mp3"  />
